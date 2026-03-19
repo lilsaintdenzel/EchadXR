@@ -146,7 +146,6 @@ export default function Home() {
                 <h3 className="feature-title">Sacred Syntax Integration</h3>
                 <p className="feature-text">
                   Each scene connects to PreachCode's theological meditations.
-                  Depth over virality. Seeds over stats.
                 </p>
               </div>
 
