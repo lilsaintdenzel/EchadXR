@@ -12,6 +12,15 @@ const SCENE_COMPONENTS = {
   'upper-room': UpperRoom,
 }
 
+// Fallback scene registry — used when Supabase is unavailable (no env, offline, etc.)
+const LOCAL_SCENES = [
+  { slug: 'gethsemane',  title: 'The Garden of Gethsemane', is_free: true,  id: 'local-1' },
+  { slug: 'upper-room',  title: 'The Upper Room',            is_free: false, id: 'local-2' },
+  { slug: 'calvary',     title: 'Calvary',                   is_free: false, id: 'local-3' },
+  { slug: 'empty-tomb',  title: 'The Empty Tomb',            is_free: false, id: 'local-4' },
+  { slug: 'ascension',   title: 'The Ascension',             is_free: false, id: 'local-5' },
+]
+
 export default function Scene() {
   const { slug } = useParams()
   const { user } = useAuth()
@@ -22,7 +31,8 @@ export default function Scene() {
 
   useEffect(() => {
     async function checkAccess() {
-      const scenes = await getAllScenes()
+      let scenes = await getAllScenes()
+      if (!scenes.length) scenes = LOCAL_SCENES
       const scene = scenes.find((s) => s.slug === slug)
       if (!scene) { navigate('/'); return }
       setSceneData(scene)
